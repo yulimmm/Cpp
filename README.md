@@ -17,6 +17,9 @@
 | 0x0B | 재귀 |
 | 0x0C | 백트래킹 |
 | 0x0D | 시뮬레이션 |
+| 0x0F | 정렬 |
+| 0x10 | 다이나믹 프로그래밍 |
+| 0x11 | 그리디 |
 
 ## 백준 문제 리스트
 [바킹독 문제집](https://github.com/encrypted-def/basic-algo-lecture/blob/master/workbook.md)
