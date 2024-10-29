@@ -18,28 +18,16 @@ int main()
   sort(arr, arr+totalCard);
   int curCnt = 1;
   for(int i = 1; i < totalCard; i++){
-    if(arr[i-1]==arr[i]){
-      curCnt++;
-    }
+    if(i==0||arr[i-1]==arr[i]) curCnt++;
     else{
-      if(mxCnt < curCnt){
+      if(curCnt > mxCnt){
         mxCnt = curCnt;
         mxVal = arr[i-1];
-      }
-      else if(mxCnt == curCnt){
-        if(mxVal > arr[i-1]) mxVal = arr[i-1];
       }
       curCnt = 1;
     }
   }
-
-  if(mxCnt < curCnt){
-    mxCnt = curCnt;
-    mxVal = arr[totalCard - 1];
-  }
-  else if(mxCnt == curCnt){
-    if(mxVal > arr[totalCard - 1]) mxVal = arr[totalCard - 1];
-  }
+  if(curCnt > mxCnt) mxVal = arr[totalCard-1];
 
   cout<<mxVal;
   return 0;
