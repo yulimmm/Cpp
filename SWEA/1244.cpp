@@ -1,55 +1,37 @@
-//최대 상금 Level D3
-#include <iostream>
-#include <string>
+//1244 최대 상금 Level D3 
+#include<iostream>
 #include <algorithm>
+#include <string>
+
 using namespace std;
 
-struct value{
-  int val;
-  int index;
-};
-
-bool compar(const value &a, const value &b)
-{
-  if(a.val == b.val){
-    if(a.index > b.index) return true;
+int mx,c;
+string s;
+void dfs(int idx, int cnt) {
+  if(cnt==c) {
+    mx=max(stoi(s),mx);
+    return;
   }
-  if(a.val > b.val) return true;
-  return false;
+  
+  for(int i=idx;i<s.size()-1;i++) {
+    for(int j=i+1;j<s.size();j++) {
+      swap(s[i],s[j]);
+      dfs(i,cnt+1);
+      swap(s[i],s[j]);
+    }
+  }
 }
 
 int main()
 {
-  ios::sync_with_stdio(0); cin.tie(0);
-  int TestCase;
-  string num;
-  int count;
-  cin >> TestCase;
-  for(int i = 1; i <= TestCase; i++){
-    cin >> num >> count;
-    int orig[10];
-    value arr[10];
-    for(int k = 0; k < num.size(); k++){
-      orig[k] = num[k]-'0';
-      arr[k].val = num[k]-'0';
-      arr[k].index = k;
-    }
-    sort(arr, arr+num.size(), compar);
-    int idx = 0;
-    while(count!=0){
-      if(orig[idx]<=arr[idx].val){
-        swap(orig[idx], orig[arr[idx].index]);
-        count--;
-      }
-      idx++;
-    }
-
-    cout<<'#'<<i<<' ';
-    for(int k = 0; k < num.size(); k++){
-      cout<<orig[k];
-    }
-    cout<<'\n';
+  int t;
+  cin >> t;
+  for(int i=1;i<=t;i++) {
+    cin >> s >> c;
+    mx=-1;
+    if(c>s.size()) c=s.size();
+    dfs(0,0);
+    cout << '#'<<i<<" " << mx<< '\n';
   }
-
   return 0;
 }
