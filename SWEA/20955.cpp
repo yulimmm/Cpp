@@ -3,33 +3,33 @@
 #include <algorithm>
 using namespace std;
 
-bool canTransform(string S, string E) {
-  while (E.length() > S.length()) {
-    if (E.back() == 'X') {
-      E.pop_back();
-    } else if (E.back() == 'Y') {
-      E.pop_back();
-      reverse(E.begin(), E.end());
+int testCase;
+string s, e;
+
+bool solution()
+{
+  while(s.size()<e.size()){
+    if(e.back()=='X'){
+      e.pop_back();
+    }
+    else if(e.back()=='Y'){
+      e.pop_back();
+      reverse(e.begin(),e.end());
     }
   }
-  return S == E; 
+  return e==s;
 }
 
-int main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
-  
-  int T;
-  cin >> T; 
-  while (T--) {
-    string S, E;
-    cin >> S >> E;
-    if (canTransform(S, E)) {
-        cout << "Yes\n";
-    } else {
-        cout << "No\n";
-    }
+int main()
+{
+  ios::sync_with_stdio(0); cin.tie(0);
+  cin >> testCase;
+  for(int i = 1; i <= testCase; i++){
+    cin >> s >> e;
+    cout<<'#'<<i<<' ';
+    if(solution()) cout<<"Yes\n";
+    else cout<<"No\n";
   }
-  
+
   return 0;
 }
