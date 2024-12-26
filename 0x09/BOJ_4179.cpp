@@ -1,75 +1,72 @@
 #include <iostream>
-#include <queue>
 #include <utility>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
 string board[1002];
-int r, c; //r=행
+int r, c; //r: 행 c: 열
 int dx[4] = {1,0,-1,0};
 int dy[4] = {0,1,0,-1};
-int distF[1002][1002];
-int distJ[1002][1002];
-int mxF = 0, mxJ = 0;
+int fdist[1002][1002];
+int jdist[1002][1002];
+queue<pair<int, int>>QF;
+queue<pair<int, int>>QJ;
 
 int main()
 {
   ios::sync_with_stdio(0); cin.tie(0);
   cin >> r >> c;
-  queue<pair<int, int>>jQ;
-  queue<pair<int, int>>fQ;
-  for(int i = 0; i < c; i++){
-    fill(distF[i],distF[i]+r,0);
-    fill(distJ[i],distJ[i]+r,0);
+  for(int i = 0; i < c; i++){ //init
+    fill(fdist[i], fdist[i]+r, -1);
+    fill(jdist[i], jdist[i]+r, -1);
   }
   for(int i = 0; i < c; i++){
     cin >> board[i];
-    for(int k = 0; k < r; k++){
-      if(board[i][k]=='J') {
-        jQ.push({i,k});
-        distJ[i][k] = 1;
+    for(int j = 0; j < r; j++){
+      if(board[i][j]=='F') {
+        QF.push({i,j});
+        fdist[i][j] = 0;
       }
-      if(board[i][k]=='F'){
-        fQ.push({i,k});
-        distF[i][k] = 1;
+      else if(board[i][j]=='J') {
+        QJ.push({i,j});
+        jdist[i][j] = 0;
       }
     }
   }
-
-  while(!jQ.empty()){
-    pair<int, int>current = jQ.front(); jQ.pop();
+  while(!QJ.empty()){
+    pair<int, int>current = QJ.front(); QJ.pop();
     int x = current.first;
     int y = current.second;
     for(int dir = 0; dir < 4; dir++){
       int nx = x + dx[dir];
       int ny = y + dy[dir];
-      if(nx < 0 || nx >= r || ny < 0 || ny > c) continue;
-      if(board[nx][ny]!='.' || distJ[nx][ny] > 0) continue;
-      distJ[nx][ny] = distJ[x][y] + 1;
-      jQ.push({nx,ny});
+      if(nx < 0 || nx >= r || ny < 0 || ny >= c) continue;
+      if(board[nx][ny]!='.' || jdist[nx][ny]>-1) continue;
+      QJ.push({nx,ny});
+      jdist[nx][ny] = jdist[x][y] + 1;
     }
   }
-
-  while(!fQ.empty()){
-    pair<int, int>current = fQ.front(); fQ.pop();
+  while(!QF.empty()){
+    pair<int, int>current = QF.front(); QF.pop();
     int x = current.first;
     int y = current.second;
     for(int dir = 0; dir < 4; dir++){
       int nx = x + dx[dir];
       int ny = y + dy[dir];
-      if(nx < 0 || nx >= r || ny < 0 || ny > c) continue;
-      if(board[nx][ny]!='.' || distF[nx][ny] > 0) continue;
-      distF[nx][ny] = distF[x][y] + 1;
-      fQ.push({nx,ny});
+      if(nx < 0 || nx >= r || ny < 0 || ny >= c) continue;
+      if(board[nx][ny]!='.' || fdist[nx][ny]>-1) continue;
+      QJ.push({nx,ny});
+      fdist[nx][ny] = fdist[x][y] + 1;
     }
   }
-
+  int ans = 1005;
   bool success = 0;
-
   for(int i = 0; i < r; i++){
-    if(distF[r][0]<distJ[r][0] && board[r][0]=='.') success = 1;
+    if(jdist[i][0]>-1 && jdist[i][0] < fdist[i][0]){ 
+      ans = min(ans, jdist[i][0]);
+      success = 1;
+    }
   }
-
-
   return 0;
 }
