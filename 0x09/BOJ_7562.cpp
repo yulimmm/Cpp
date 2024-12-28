@@ -1,42 +1,39 @@
 #include <iostream>
-#include <utility>
 #include <queue>
+#include <utility>
 using namespace std;
-
-int dx[8] = {1,2,2,1,-1,-2,-2,-1};
-int dy[8] = {2,1,-1,-2,-2,-1,1,2};
-int board[300][300];
-int dist[300][300] = {0};
-int testCase;
+int dx[8] = {2,1,-1,-2,-2,-1,1,2};
+int dy[8] = {1,2,2,1,-1,-2,-2,-1};
+queue<pair<int,int>>Q;
+int testCase, n;
+int dist[302][302];
+int fromX, fromY, toX, toY;
 
 int main()
 {
   ios::sync_with_stdio(0); cin.tie(0);
   cin >> testCase;
-  while(testCase--){
-    int l;
-    cin >> l;
-    for(int i = 0; i < l; i++) fill(dist[i], dist[i]+l, 0);
-    queue<pair<int, int>>Q;
-    int start_x, start_y;
-    cin >> start_x >> start_y;
-    Q.push({start_x,start_y});
-    dist[start_x][start_y]++;
-    int arrive_x, arrive_y;
-    cin >> arrive_x >> arrive_y;
+  for(int tc = 0; tc < testCase; tc++){
+    cin >> n;
+    for(int i = 0; i < n; i++) fill(dist[i],dist[i]+n,-1);
+    cin >> fromX >> fromY;
+    cin >> toX >> toY;
+    Q.push({fromX, fromY}); dist[fromX][fromY] = 0;
     while(!Q.empty()){
-      auto cur = Q.front(); Q.pop();
+      pair<int,int>cur=Q.front(); Q.pop();
+      int x = cur.first;
+      int y = cur.second;
       for(int dir = 0; dir < 8; dir++){
-        int nx = cur.first + dx[dir];
-        int ny = cur.second + dy[dir];
-        if(nx < 0 || nx >= l || ny < 0 || ny >= l) continue;
-        if(dist[nx][ny]!=0) continue;
-        dist[nx][ny] = dist[cur.first][cur.second] + 1;
-        if(nx == arrive_x && ny == arrive_y) break;
+        int nx = x + dx[dir];
+        int ny = y + dy[dir];
+        if(nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
+        if(dist[nx][ny]>-1) continue;
+        dist[nx][ny] = dist[x][y] + 1;
         Q.push({nx,ny});
       }
     }
-    cout<<dist[arrive_x][arrive_y]-1<<'\n';
+    if(dist[toX][toY]==-1) cout<<"fail\n";
+    else cout<<dist[toX][toY]<<'\n';
   }
   return 0;
 }
