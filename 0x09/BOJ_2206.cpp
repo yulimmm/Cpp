@@ -10,12 +10,12 @@ int n, m;
 
 int bfs()
 {
-  int x, y, broke;
   queue<tuple<int,int,int>>Q;
+  int x, y, broke;
   Q.push({0,0,0}); dist[0][0][0] = dist[0][0][1] = 1;
   while(!Q.empty()){
     tie(x, y, broke) = Q.front();
-    if(x==n-1 && y==m-1) return dist[x][y][broke];
+    if(x == n-1 && y == m-1) return dist[x][y][broke];
     Q.pop();
     int nextdist = dist[x][y][broke] + 1;
     for(int dir = 0; dir < 4; dir++){
@@ -45,7 +45,6 @@ int main()
       dist[i][j][0] = dist[i][j][1] = -1;
     }
   }
-  int ans = bfs();
-  cout<<ans;
+  cout << bfs();
   return 0;
 }
