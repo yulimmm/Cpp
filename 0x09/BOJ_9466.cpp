@@ -1,26 +1,34 @@
 #include <iostream>
+#include <queue>
 using namespace std;
-
+int n, testCase, ans;
 int student[100002];
 bool ischosen[100002];
-int testCase, n, ans;
 
 int main()
 {
   ios::sync_with_stdio(0); cin.tie(0);
   cin >> testCase;
   for(int tc = 0; tc < testCase; tc++){
-    ans = 0;
     cin >> n;
-    fill(ischosen, ischosen+n, 0);
+    ans = n;
+    queue<int>Q;
+    int fail = 0;
     for(int i = 0; i < n; i++) cin >> student[i];
-    for(int i = 0; i < n; i++){
-      int num = student[i];
-      if(ischosen[num]) ans++;
-      else ischosen[num] = 1;
+    fill(ischosen, ischosen+n+1, 0);
+    for(int studentIdx = 0; studentIdx < n; studentIdx++){
+      int chosenStudent = student[studentIdx];
+      if(ischosen[chosenStudent]) continue;
+      Q.push(chosenStudent); ischosen[chosenStudent] = 1;
+      int successNum = 0;
+      while(!Q.empty()){
+        int curStudent = Q.front(); Q.pop();
+        int chosenStudent = student[curStudent];
+        if(ischosen[chosenStudent]) continue;
+        successNum++;
+      }
+      ans -= successNum;
     }
-    if(ans==0) cout<<0<<'\n';
-    else cout<<ans+1<<'\n';
   }
   return 0;
 }
