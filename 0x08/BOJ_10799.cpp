@@ -1,32 +1,29 @@
 #include <iostream>
+#include <stack>
 #include <string>
 using namespace std;
 
-const int MX = 100005;
-int stack[MX];
-int pos = 0;
-
 int main()
 {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-
-	string s;
-	cin >> s;
-
-	int length = 0;
-
-	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '(') {
-			stack[pos++] = i;
-		}
-		if (s[i] == ')') {
-			pos--;
-			length += pos;
-		}
-	}
-
-	cout << length;
-
-	return 0;
+  ios::sync_with_stdio(0); cin.tie(0);
+  string str;
+  stack<char>st;
+  int ans = 0;
+  cin >> str;
+  st.push(str[0]);
+  for(int i = 1; i < str.size(); i++){
+    if(str[i]=='(') st.push(str[i]);
+    else{
+      if(str[i-1]=='('){ //레이저
+        st.pop();
+        ans+=st.size();
+      }
+      else{ //막대
+        st.pop();
+        ans++;
+      }
+    }
+  }
+  cout<<ans;
+  return 0;
 }
