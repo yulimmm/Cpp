@@ -1,22 +1,21 @@
 #include <iostream>
 using namespace std;
-int n, testcase;
-int d[1000003];
+int n, m;
+int input[100003];
+int dp[100003];
 
 int main()
 {
   ios::sync_with_stdio(0); cin.tie(0);
-  cin >> n >> testcase;
-  d[0] = 0;
-  for(int i = 1; i <= n; i++){
-    int temp;
-    cin >> temp;
-    d[i] = d[i-1] + temp;
-  }
-  for(int t = 0; t < testcase; t++){
+  cin >> n >> m;
+  for(int i = 1; i <= n; i++) cin >> input[i];
+  dp[0] = 0;
+  dp[1] = input[1];
+  for(int i = 2; i <= n; i++) dp[i] = dp[i-1] + input[i];
+  while(m--){
     int i, j;
     cin >> i >> j;
-    cout<<d[j] - d[i-1] <<'\n';
+    cout << dp[j] - dp[i-1] <<'\n';
   }
   return 0;
 }
