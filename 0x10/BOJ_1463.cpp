@@ -1,25 +1,20 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-/*
-<DP 푸는 법>
-1. 테이블 정의하기 => D[i] = i를 1로 만들기 위한 연산 사용 횟수의 최솟값 
-2. 점화식 찾기
-3. 초기값 정하기
-*/
-
-int d[1000005];
+int dp[1000003];
 int n;
 
-int main(void) {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
+int main()
+{
+  ios::sync_with_stdio(0); cin.tie(0);
   cin >> n;
-  d[1] = 0;
-  for(int i = 2; i <= n; i++){
-    d[i] = d[i-1]+1;
-    if(i%2 == 0) d[i] = min(d[i],d[i/2]+1);
-    if(i%3 == 0) d[i] = min(d[i],d[i/3]+1);
+  dp[1] = 0;
+  dp[2] = 1;
+  for(int i = 3; i <= n; i++){
+    dp[i] = dp[i-1] + 1;
+    if(i%2==0) dp[i] = min(dp[i],dp[i/2]+1);
+    if(i%3==0) dp[i] = min(dp[i],dp[i/3]+1);
   }
-  cout << d[n];
+  cout<<dp[n];
+  return 0;
 }
