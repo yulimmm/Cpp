@@ -1,17 +1,17 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
+int d[302][3]; //현재까지 1: 한 번 밟음. 2: 두 번 밟음. 
+int s[302];
 
-int s[305];
-int n;
-int d[305][3];
-
-int main(void){
-  ios::sync_with_stdio(0);
-  cin.tie(0);
+int main()
+{
+  ios::sync_with_stdio(0); cin.tie(0);
+  int n;
   cin >> n;
   for(int i = 1; i <= n; i++) cin >> s[i];
-  if(n == 1){
-    cout << s[1];
+  if(n==1){
+    cout<<s[1];
     return 0;
   }
   d[1][1] = s[1];
@@ -22,5 +22,6 @@ int main(void){
     d[i][1] = max(d[i-2][1],d[i-2][2])+s[i];
     d[i][2] = d[i-1][1]+s[i];
   }
-  cout << max(d[n][1],d[n][2]);
+  cout<<max(d[n][1],d[n][2]);
+  return 0;
 }
