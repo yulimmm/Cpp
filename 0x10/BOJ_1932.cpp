@@ -1,7 +1,5 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
-
 int n;
 int a[505][505], d[505][505];
 
